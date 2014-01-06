@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<style>
+		html, body {
+			font-family: 'Open Sans', sans-serif;
+		}
+		img, canvas {
+			border: 3px solid #eff0f1;
+			display: inline-block;
+		}
+		.inline {
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<h1>Leapcopter</h1>
+	<div id="drawer"></div>
+	<div id="stream"></div>
+	<script src="http://leapcopter.dev:4000/socket.io/socket.io.js"></script>
+	<script src="src/config.js"></script>
+	<script src="src/bower_components/dojo/dojo.js"></script>
+	<script>
+		require([
+			'Leapcopter/Remote',
+			'Leapcopter/Drawer',
+			'Leapcopter/Drone',
+			'dojo/domReady!'
+		], function (Remote, Drawer, Drone) {
+			var remote = new Remote(),
+				drone = new Drone({
+					remote: remote,
+					width: 500,
+					height: 500
+				}, 'stream'),
+				drawer = new Drawer({
+					width: 500,
+					height: 500,
+					remote: remote
+				}, 'drawer');
+
+			remote.start();
+		});
+	</script>
+	<!-- <script src="src/main.js"></script> -->
+</body>
+</html>

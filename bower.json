@@ -1,0 +1,25 @@
+{
+  "name": "leapcopter",
+  "main": "leapcopter.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/nicknisi/leapcopter",
+  "authors": [
+    "Nick Nisi <nick@nisi.org>"
+  ],
+  "license": "BSD",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dojo": "~1.9.2",
+    "put-selector": "~0.3.5",
+    "leapjs": "0.3.0-beta2",
+    "dijit": "~1.9.2",
+    "dojox": "~1.9.2"
+  }
+}

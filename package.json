@@ -1,0 +1,30 @@
+{
+  "name": "leapcopter",
+  "version": "0.0.1",
+  "description": "A leap motion nodecopter controller",
+  "main": "leapcopter.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nicknisi/leapcopter.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/nicknisi/leapcopter/issues"
+  },
+  "homepage": "https://github.com/nicknisi/leapcopter",
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.2"
+  },
+  "dependencies": {
+    "socket.io": "~0.9.16",
+    "express": "~3.4.7",
+    "ar-drone": "~0.3.1",
+    "ar-drone-png-stream": "~1.0.0"
+  }
+}
