@@ -5,7 +5,7 @@ define([
 	'dijit/_WidgetBase',
 	'put-selector/put'
 ], function (declare, lang, array, _WidgetBase, put) {
-	var adverbs = [ 'wow', 'such', 'so', 'much' ];
+	var adverbs = [ 'wow', 'such', 'so', 'much', 'very' ];
 	var colors = ['#3F686A', '#9D455B', '#5E8C9B', '#713DC3', '#F8FA1B'];
 
 	function random(min, max) {
