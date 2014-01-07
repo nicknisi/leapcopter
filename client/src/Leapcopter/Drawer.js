@@ -3,8 +3,9 @@ define([
 	'dojo/_base/lang',
 	'dojo/_base/array',
 	'dijit/_WidgetBase',
-	'put-selector/put'
-], function (declare, lang, array, _WidgetBase, put) {
+	'put-selector/put',
+	'dojo/topic'
+], function (declare, lang, array, _WidgetBase, put, topic) {
 	var adverbs = [ 'wow', 'such', 'so', 'much', 'very' ];
 	var colors = ['#3F686A', '#9D455B', '#5E8C9B', '#713DC3', '#F8FA1B'];
 
@@ -21,8 +22,8 @@ define([
 		postMixInProperties: function () {
 			this.inherited(arguments);
 
-			this.remote.on('frame', lang.hitch(this, 'update'));
-			this.remote.on('action', lang.hitch(this, 'setAction'));
+			topic.subscribe('remote/frame', lang.hitch(this, 'update'));
+			topic.subscribe('remote/action', lang.hitch(this, 'setAction'));
 		},
 
 		buildRendering: function () {

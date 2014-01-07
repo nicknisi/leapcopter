@@ -33,15 +33,8 @@
 		], function (Remote, Drawer, Drone) {
 			new NodecopterStream(document.getElementById('stream'));
 			var remote = new Remote(),
-				drone = new Drone({
-					active: false,
-					remote: remote,
-					width: 500,
-					height: 500
-				}),
-				drawer = new Drawer({
-					remote: remote
-				}, 'drawer');
+				drone = new Drone({ active: false }),
+				drawer = new Drawer({}, 'drawer');
 
 			remote.start();
 		});

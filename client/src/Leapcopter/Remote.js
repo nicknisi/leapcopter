@@ -2,11 +2,11 @@ define([
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dojo/_base/array',
-	'dojo/Evented',
+	'dojo/topic',
 	'dojo/request',
 	'./Leap'
-], function (declare, lang, array, Evented, request, Leap) {
-	return declare(Evented, {
+], function (declare, lang, array, topic, request, Leap) {
+	return declare(null, {
 		controller: null,
 		enableGestures: true,
 
@@ -25,7 +25,7 @@ define([
 		stop: function () {},
 
 		onFrame: function (frame) {
-			this.emit('frame', frame);
+			topic.publish('remote/frame', frame);
 			var action = null;
 			array.forEach(frame.gestures, function (gesture) {
 				var type = gesture.type;
@@ -50,7 +50,7 @@ define([
 					action = 'forward';
 				}
 			}
-			this.emit('action', { type: action });
+			topic.publish('remote/action', { type: action });
 		}
 	});
 });

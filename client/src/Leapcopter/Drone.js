@@ -3,8 +3,9 @@ define([
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',
 	'./util',
-	'put-selector/put'
-], function (declare, lang, _WidgetBase, util, put) {
+	'put-selector/put',
+	'dojo/topic'
+], function (declare, lang, _WidgetBase, util, put, topic) {
 	/*globals io*/
 	return declare(_WidgetBase, {
 		active: true,
@@ -30,7 +31,7 @@ define([
 
 		postCreate: function () {
 			this.inherited(arguments);
-			this.remote.on('action', lang.hitch(this, 'update'));
+			topic.subscribe('remote/action', lang.hitch(this, 'update'));
 
 			try {
 				this.socket = io.connect(this.url);
@@ -47,6 +48,8 @@ define([
 					this._flown = true;
 					this.isFlying = !this.isFlying;
 				}
+
+				console.log('emitting ', type);
 				if (this.active) {
 					this.socket.emit('action', { type: type });
 				}

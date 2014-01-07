@@ -46,7 +46,8 @@ io.sockets.on('connection', function (socket) {
 			}
 			break;
 		case null:
-			console.log('stop');
+		case 'idle':
+			console.log('idle');
 			client.stop();
 		}
 	});
