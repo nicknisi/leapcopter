@@ -13,7 +13,7 @@ define([
 		emergency: false,
 		remote: null,
 		socket: null,
-		url: 'ws://leapcopter.dev:4000',
+		url: 'http://localhost',
 		image: null,
 		width: 800,
 		height: 600,

@@ -4,11 +4,11 @@ module.exports = function (grunt) {
     // Project configuration
     grunt.initConfig({
         watch: {
-            reload: {
+            client: {
                 options: {
                     livereload: true
                 },
-                files: 'src/Leapcopter/**/*.js',
+                files: 'src/Leapcopter/client/**/*.js',
                 tasks: []
             }
         }

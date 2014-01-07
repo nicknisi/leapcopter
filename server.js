@@ -1,8 +1,13 @@
 /*jshint node:true*/
-var io = require('socket.io').listen(4000),
+var express = require('express'),
+	app = express(),
+	server = require('http').createServer(app),
+	io = require('socket.io').listen(server),
 	arDrone = require('ar-drone'),
 	client = arDrone.createClient(),
 	flight = false;
+
+app.use(express.static(__dirname + '/client'));
 
 require('ar-drone-png-stream')(client, { port: 8000 });
 
@@ -46,3 +51,5 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 });
+
+server.listen(8080);
