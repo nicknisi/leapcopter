@@ -3,15 +3,19 @@ var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	dronestream = require('dronestream').listen(server),
-	io = require('socket.io').listen(8081),
+	io = require('socket.io').listen(3001),
 	arDrone = require('ar-drone'),
 	client = arDrone.createClient(),
-	flight = false;
+	flight = false,
+	speed = 0.04;
 
 app.use(express.static(__dirname + '/client'));
 
 io.sockets.on('connection', function (socket) {
 	console.log('\nNEW CONNECTION\n');
+	socket.emit('status', {
+		connected: true
+	});
 	socket.on('action', function (command) {
 		console.log('\nACTION\n', command.type);
 		var type = command.type;
@@ -20,29 +24,41 @@ io.sockets.on('connection', function (socket) {
 		case 'toggle':
 			console.log('toggle');
 			if (flight) {
+				socket.emit('status', { busy: true });
 				client.land();
+				client.after(1000, function () {
+					socket.emit('status', { busy: false });
+				});
 				flight = false;
 			} else {
+				socket.emit('status', { busy: true });
 				client.takeoff();
+				client.after(1000, function () {
+					socket.emit('status', { busy: false });
+				});
 				flight = true;
 			}
 			break;
 		case 'flip':
-			console.log('flup');
+			console.log('flip');
 			if (flight) {
+				socket.emit('status', { busy: true });
 				client.animate('flipLeft', 15);
+				client.after(1000, function () {
+					socket.emit('status', { busy: false });
+				});
 			}
 			break;
 		case 'forward':
 			console.log('forward');
 			if (flight) {
-				client.front(0.01);
+				client.front(speed);
 			}
 			break;
 		case 'backward':
 			console.log('backward');
 			if (flight) {
-				client.back(0.01);
+				client.back(speed);
 			}
 			break;
 		case null:
@@ -53,4 +69,4 @@ io.sockets.on('connection', function (socket) {
 	});
 });
 
-server.listen(8080);
+server.listen(3000);

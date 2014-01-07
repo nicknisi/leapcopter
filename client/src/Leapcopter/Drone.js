@@ -1,51 +1,42 @@
 define([
 	'dojo/_base/declare',
 	'dojo/_base/lang',
-	'dijit/_WidgetBase',
-	'./util',
-	'put-selector/put',
 	'dojo/topic'
-], function (declare, lang, _WidgetBase, util, put, topic) {
+], function (declare, lang, topic) {
 	/*globals io*/
-	return declare(_WidgetBase, {
+	return declare(null, {
+		_connected: false,
+		busy: false,
 		active: true,
 		isFyling: false,
-		_flown: false,
 		emergency: false,
 		remote: null,
 		socket: null,
-		url: 'ws://localhost:8081',
-		image: null,
-		width: 800,
-		height: 600,
+		url: 'ws://localhost:3001',
 		prevAction: null,
 
-		buildRendering: function () {
-			this.inherited(arguments);
-			this.image = put(this.domNode, 'img', {
-				// src: 'http://leapcopter.dev:8000',
-				height: this.height,
-				width: this.width
-			});
+		constructor: function () {
+			topic.subscribe('remote/action', lang.hitch(this, 'sendAction'));
+
+			this.socket = io.connect(this.url);
+			this.socket.on('status', lang.hitch(this, 'updateStatus'));
 		},
 
-		postCreate: function () {
-			this.inherited(arguments);
-			topic.subscribe('remote/action', lang.hitch(this, 'update'));
-
-			try {
-				this.socket = io.connect(this.url);
-			} catch (e) {/*noop*/}
+		updateStatus: function (status) {
+			if (status.connected) {
+				this._connected = true;
+			}
+			if (typeof status.busy !== 'undefined') {
+				console.log('setting busy to ' + status.busy);
+				this.busy = status.busy;
+			}
 		},
 
-		update: function (action) {
+		sendAction: function (action) {
+			if (!this._connected || this.busy) { return; }
 			var type = action.type;
 			if (this.prevAction !== type) {
 				if (type === 'toggle') {
-					if (this._flown && !this.isFlying) {
-						return;
-					}
-					this._flown = true;
 					this.isFlying = !this.isFlying;
 				}
 

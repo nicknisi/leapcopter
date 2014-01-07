@@ -38,7 +38,7 @@ define([
 		},
 
 		setAction: function (action) {
-			if (!action.type || (this.action && this.action.type === action.type)) { return; }
+			if (!action.type || (this.action && this.action.type === action.type || action.type === 'idle')) { return; }
 			if (this.actionHandle) {
 				clearTimeout(this.actionHandle);
 			}

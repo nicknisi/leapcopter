@@ -3,9 +3,12 @@ define([
 	'dojo/_base/lang',
 	'dojo/_base/array',
 	'dojo/topic',
-	'dojo/request',
-	'./Leap'
-], function (declare, lang, array, topic, request, Leap) {
+
+	// issue with AMD. just load and then assume global is there
+	'src/bower_components/leapjs/leap'
+], function (declare, lang, array, topic) {
+	/*globals Leap*/
+
 	return declare(null, {
 		controller: null,
 		enableGestures: true,
@@ -50,6 +53,7 @@ define([
 					action = 'forward';
 				}
 			}
+			action || (action = 'idle');
 			topic.publish('remote/action', { type: action });
 		}
 	});
