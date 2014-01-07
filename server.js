@@ -32,6 +32,7 @@ io.sockets.on('connection', function (socket) {
 				flight = false;
 			} else {
 				socket.emit('status', { busy: true });
+				client.disableEmergency();
 				client.takeoff();
 				client.after(1000, function () {
 					socket.emit('status', { busy: false });
