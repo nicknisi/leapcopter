@@ -2,10 +2,7 @@ define([
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dojo/_base/array',
-	'dojo/topic',
-
-	// issue with AMD. just load and then assume global is there
-	'src/bower_components/leapjs/leap'
+	'dojo/topic'
 ], function (declare, lang, array, topic) {
 	/*globals Leap*/
 
