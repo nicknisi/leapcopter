@@ -13,9 +13,8 @@ define([
 	}
 
 	return declare(_WidgetBase, {
-		baseClass: 'inline',
-		height: 600,
-		width: 800,
+		width: 640,
+		height: 360,
 		actionInterval: 500,
 		action: null,
 

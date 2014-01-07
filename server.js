@@ -2,16 +2,16 @@
 var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(server),
+	dronestream = require('dronestream').listen(server),
+	io = require('socket.io').listen(8081),
 	arDrone = require('ar-drone'),
 	client = arDrone.createClient(),
 	flight = false;
 
 app.use(express.static(__dirname + '/client'));
 
-require('ar-drone-png-stream')(client, { port: 8000 });
-
 io.sockets.on('connection', function (socket) {
+	console.log('\nNEW CONNECTION\n');
 	socket.on('action', function (command) {
 		console.log('\nACTION\n', command.type);
 		var type = command.type;

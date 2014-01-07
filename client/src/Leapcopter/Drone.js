@@ -7,13 +7,13 @@ define([
 ], function (declare, lang, _WidgetBase, util, put) {
 	/*globals io*/
 	return declare(_WidgetBase, {
-		baseClass: 'inline',
+		active: true,
 		isFyling: false,
 		_flown: false,
 		emergency: false,
 		remote: null,
 		socket: null,
-		url: 'http://localhost',
+		url: 'ws://localhost:8081',
 		image: null,
 		width: 800,
 		height: 600,
@@ -22,7 +22,7 @@ define([
 		buildRendering: function () {
 			this.inherited(arguments);
 			this.image = put(this.domNode, 'img', {
-				src: 'http://leapcopter.dev:8000',
+				// src: 'http://leapcopter.dev:8000',
 				height: this.height,
 				width: this.width
 			});
@@ -47,7 +47,9 @@ define([
 					this._flown = true;
 					this.isFlying = !this.isFlying;
 				}
-				this.socket.emit('action', { type: type });
+				if (this.active) {
+					this.socket.emit('action', { type: type });
+				}
 			}
 			this.prevAction = type;
 		}

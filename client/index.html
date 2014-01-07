@@ -3,25 +3,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-	<style>
-		html, body {
-			font-family: 'Open Sans', sans-serif;
-		}
-		img, canvas {
-			border: 3px solid #eff0f1;
-			display: inline-block;
-		}
-		.inline {
-			display: inline-block;
-		}
-	</style>
+	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-	<h1>Leapcopter</h1>
-	<div id="drawer"></div>
-	<div id="stream"></div>
-	<script src="/socket.io/socket.io.js"></script>
+	<div id="header">
+		<h1 class="title inline">Leapcopter</h1>
+		<h2 class="subtitle inline">Nodecopter and Leap Motion</h2>
+	</div>
+	<div id="content">
+		<div id="leap" class="inline">
+			<h2 class="subtitle">Leap Motion</h2>
+			<div id="drawer"></div>
+		</div>
+		<div id="drone" class="inline">
+			<h2 class="subtitle">Drone</h2>
+			<div id="stream"></div>
+		</div>
+	</div>
+	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	<script src="/dronestream/nodecopter-client.js"></script>
 	<script src="src/config.js"></script>
 	<script src="src/bower_components/dojo/dojo.js"></script>
 	<script>
@@ -31,15 +31,15 @@
 			'Leapcopter/Drone',
 			'dojo/domReady!'
 		], function (Remote, Drawer, Drone) {
+			new NodecopterStream(document.getElementById('stream'));
 			var remote = new Remote(),
 				drone = new Drone({
+					active: false,
 					remote: remote,
 					width: 500,
 					height: 500
-				}, 'stream'),
+				}),
 				drawer = new Drawer({
-					width: 500,
-					height: 500,
 					remote: remote
 				}, 'drawer');
 

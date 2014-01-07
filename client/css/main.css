@@ -1,0 +1,40 @@
+html, body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0 auto;
+	padding: 0;
+	background-color: #eff0f1;
+	font-size: 100%;
+}
+#header {
+	margin: 0;
+	padding: 0;
+	/* background-color: #1C6C8D; */
+	background-color: #39aecf;
+	border-bottom: 5px solid #ff5a40;
+}
+
+.title, .subtitle {
+	font-size: 2.5em;
+	margin: 0;
+	padding: 0;
+	/* color: #124A61; */
+	color: #FF5A40;
+}
+
+.subtitle, h2 {
+	font-size: 1em;
+}
+
+#content {
+	padding: 20px;
+}
+
+img, canvas {
+	background-color: #fff;
+	border: 3px solid #39AECF;
+}
+.inline {
+	display: inline-block;
+	padding: 5px;
+}
+
