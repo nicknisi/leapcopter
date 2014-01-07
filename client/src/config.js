@@ -6,7 +6,6 @@ var dojoConfig = {
 	packages: [
 		{ name: 'dojo', location: 'bower_components/dojo' },
 		{ name: 'dijit', location: 'bower_components/dijit' },
-		{ name: 'dojox', location: 'bower_components/dojox' },
 		{ name: 'put-selector', location: 'bower_components/put-selector' },
 		'Leapcopter'
 	]
