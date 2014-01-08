@@ -7,7 +7,7 @@ var express = require('express'),
 	arDrone = require('ar-drone'),
 	client = arDrone.createClient(),
 	flight = false,
-	speed = 0.5,
+	speed = 0.7,
 	busy = false;
 
 app.use(express.static(__dirname + '/client'));
