@@ -26,32 +26,50 @@ define([
 
 		onFrame: function (frame) {
 			topic.publish('remote/frame', frame);
-			var action = null;
+			var action = {
+				backward: 0,
+				forward: 0,
+				left: 0,
+				right: 0,
+				type: 'idle'
+			};
 			array.forEach(frame.gestures, function (gesture) {
 				var type = gesture.type;
 
 				switch (type) {
 				case 'circle':
-					action = 'flip';
+					action.type = 'flip';
 					break;
 				case 'keyTap':
-					action = 'toggle';
+					action.type = 'toggle';
 					break;
 				}
 			}, this);
 
 			// only care about one hand...
 			var hand = frame.hands[0];
-			if (!action && hand) {
-				var pitch = hand.pitch();
+			if (action.type === 'idle' && hand) {
+				var pitch = hand.pitch(),
+					roll = hand.roll();
+
 				if (pitch > 0.5) {
-					action = 'backward';
-				} else if (pitch < -0.1) {
-					action = 'forward';
+					action.type = 'backward';
+					action.backward = 1;
+				}
+				if (pitch < -0.1) {
+					action.type = 'forward';
+					action.forward = 1;
+				}
+				if (roll > 0.5) {
+					action.type = 'left';
+					action.left = 1;
+				}
+				if (roll < -0.5) {
+					action.type = 'right';
+					action.right = 1;
 				}
 			}
-			action || (action = 'idle');
-			topic.publish('remote/action', { type: action });
+			topic.publish('remote/action', action);
 		}
 	});
 });

@@ -7,7 +7,8 @@ var express = require('express'),
 	arDrone = require('ar-drone'),
 	client = arDrone.createClient(),
 	flight = false,
-	speed = 0.04;
+	speed = 0.5,
+	busy = false;
 
 app.use(express.static(__dirname + '/client'));
 
@@ -16,54 +17,47 @@ io.sockets.on('connection', function (socket) {
 	socket.emit('status', {
 		connected: true
 	});
-	socket.on('action', function (command) {
-		console.log('\nACTION\n', command.type);
-		var type = command.type;
 
-		switch (type) {
-		case 'toggle':
+	socket.on('action', function (action) {
+		function setBusy(isBusy) {
+			busy = isBusy;
+			socket.emit('status', { busy: busy });
+		}
+
+		function runAction(action, args) {
+			setBusy(true);
+			action.apply(client, args);
+			client.after(1000, function () {
+				setBusy(false);
+			});
+		}
+		var type = action.type;
+		if (type === 'toggle') {
 			console.log('toggle');
 			if (flight) {
-				socket.emit('status', { busy: true });
-				client.land();
-				client.after(1000, function () {
-					socket.emit('status', { busy: false });
-				});
+				console.log('\tland');
+				runAction(client.land);
 				flight = false;
 			} else {
-				socket.emit('status', { busy: true });
+				console.log('\ttakeoff');
 				client.disableEmergency();
-				client.takeoff();
-				client.after(1000, function () {
-					socket.emit('status', { busy: false });
-				});
+				runAction(client.takeoff);
 				flight = true;
 			}
-			break;
-		case 'flip':
+		} else if (type === 'flip') {
 			console.log('flip');
-			if (flight) {
-				socket.emit('status', { busy: true });
-				client.animate('flipLeft', 15);
-				client.after(1000, function () {
-					socket.emit('status', { busy: false });
-				});
-			}
-			break;
-		case 'forward':
-			console.log('forward');
-			if (flight) {
-				client.front(speed);
-			}
-			break;
-		case 'backward':
-			console.log('backward');
-			if (flight) {
-				client.back(speed);
-			}
-			break;
-		case null:
-		case 'idle':
+			// if (flight) {
+			// 	runAction(client.animate, ['flipLeft', 15]);
+			// }
+		}
+
+		console.log(action);
+		client.left(speed * action.left);
+		client.right(speed * action.right);
+		client.front(speed * action.forward);
+		client.back(speed * action.backward);
+
+		if (!action.left && !action.right && !action.forward && !action.backward) {
 			console.log('idle');
 			client.stop();
 		}

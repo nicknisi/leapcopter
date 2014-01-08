@@ -13,7 +13,6 @@ define([
 		remote: null,
 		socket: null,
 		url: 'ws://localhost:3001',
-		prevAction: null,
 
 		constructor: function () {
 			topic.subscribe('remote/action', lang.hitch(this, 'sendAction'));
@@ -35,17 +34,14 @@ define([
 		sendAction: function (action) {
 			if (!this._connected || this.busy) { return; }
 			var type = action.type;
-			if (this.prevAction !== type) {
-				if (type === 'toggle') {
-					this.isFlying = !this.isFlying;
-				}
-
-				console.log('emitting ', type);
-				if (this.active) {
-					this.socket.emit('action', { type: type });
-				}
+			if (type === 'toggle') {
+				this.isFlying = !this.isFlying;
 			}
-			this.prevAction = type;
+
+			console.log('emitting ', type);
+			if (this.active) {
+				this.socket.emit('action', action);
+			}
 		}
 	});
 });
