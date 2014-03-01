@@ -46,9 +46,9 @@ io.sockets.on('connection', function (socket) {
 			}
 		} else if (type === 'flip') {
 			console.log('flip');
-			if (flight) {
-				runAction(client.animate, ['flipLeft', 15]);
-			}
+			// if (flight) {
+			// 	runAction(client.animate, ['flipLeft', 15]);
+			// }
 		}
 
 		console.log(action);
