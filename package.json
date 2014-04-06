@@ -1,6 +1,6 @@
 {
   "name": "leapcopter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A leap motion nodecopter controller",
   "main": "leapcopter.js",
   "private": true,
