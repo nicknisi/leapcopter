@@ -4,6 +4,8 @@ A leap motion nodecopter controller example
 
 ![Leapcopter Screenshot](demo.png)
 
+![Leapcopter UI](leapcopter-ui.png)
+
 ## Running
 
 1. `npm install`
