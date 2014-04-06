@@ -49,6 +49,12 @@ io.sockets.on('connection', function (socket) {
 			// if (flight) {
 			// 	runAction(client.animate, ['flipLeft', 15]);
 			// }
+		} else if (type === 'up') {
+			console.log('\tup');
+			client.up(speed * action.up);
+		} else if (type === 'down') {
+			console.log('\tdown');
+			client.down(speed * action.down);
 		}
 
 		console.log(action);

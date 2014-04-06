@@ -26,7 +26,6 @@ define([
 				this._connected = true;
 			}
 			if (typeof status.busy !== 'undefined') {
-				console.log('setting busy to ' + status.busy);
 				this.busy = status.busy;
 			}
 		},
@@ -38,7 +37,6 @@ define([
 				this.isFlying = !this.isFlying;
 			}
 
-			console.log('emitting ', type);
 			if (this.active) {
 				this.socket.emit('action', action);
 			}

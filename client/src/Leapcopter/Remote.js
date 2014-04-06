@@ -37,9 +37,9 @@ define([
 				var type = gesture.type;
 
 				switch (type) {
-				case 'circle':
-					action.type = 'flip';
-					break;
+				// case 'circle':
+				// 	action.type = 'flip';
+				// 	break;
 				case 'keyTap':
 					action.type = 'toggle';
 					break;
@@ -50,7 +50,9 @@ define([
 			var hand = frame.hands[0];
 			if (action.type === 'idle' && hand) {
 				var pitch = hand.pitch(),
-					roll = hand.roll();
+					roll = hand.roll(),
+					handPos = hand.stabilizedPalmPosition,
+					y = handPos[1];
 
 				if (pitch > 0.5) {
 					action.type = 'backward';
@@ -67,6 +69,16 @@ define([
 				if (roll < -0.5) {
 					action.type = 'right';
 					action.right = 1;
+				}
+
+				if (y < 100) {
+					console.log('GOING DOWN');
+					action.type = 'down';
+					action.down = 1;
+				} else if (y > 400) {
+					console.log('GOING UP');
+					action.type = 'up';
+					action.up = 1;
 				}
 			}
 			topic.publish('remote/action', action);
