@@ -6,18 +6,14 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-	<div id="header">
-		<h1 class="title inline">Leapcopter</h1>
-		<h2 class="subtitle inline">Nodecopter and Leap Motion</h2>
-	</div>
 	<div id="content">
-		<div id="leap" class="inline">
-			<h2 class="subtitle">Leap Motion</h2>
-			<div id="drawer"></div>
+		<div id="header">
+			<h1 class="title inline">Leapcopter</h1>
+			<h2 class="subtitle inline">Nodecopter and Leap Motion</h2>
 		</div>
-		<div id="drone" class="inline">
-			<h2 class="subtitle">Drone</h2>
+		<div id="hud">
 			<div id="stream"></div>
+			<div id="drawer"></div>
 		</div>
 	</div>
 	<script src="http://localhost:3001/socket.io/socket.io.js"></script>
@@ -30,12 +26,17 @@
 			'Leapcopter/Remote',
 			'Leapcopter/Drawer',
 			'Leapcopter/Drone',
+			'dojo/window',
 			'dojo/domReady!'
-		], function (Remote, Drawer, Drone) {
+		], function (Remote, Drawer, Drone, win) {
 			new NodecopterStream(document.getElementById('stream'));
 			var remote = new Remote(),
 				drone = new Drone({ active: false }),
-				drawer = new Drawer({}, 'drawer');
+				box = win.getBox(),
+				drawer = new Drawer({
+					width: box.w,
+					height: box.h
+				}, 'drawer');
 
 			remote.start();
 		});
